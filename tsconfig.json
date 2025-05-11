@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+      "module": "NodeNext",
+      "moduleResolution": "nodenext",
+      "target": "ES2020",
+      "baseUrl": "src",
+      "sourceMap": true,
+      "outDir": "dist",
+      "noImplicitAny": true,
+      "typeRoots": ["./src/types", "./node_modules/@types"],
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
