@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
-      "module": "NodeNext",
-      "moduleResolution": "nodenext",
-      "target": "ES2020",
-      "baseUrl": "src",
-      "sourceMap": true,
-      "outDir": "dist",
-      "noImplicitAny": true,
-      "typeRoots": ["./src/types", "./node_modules/@types"],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "target": "ES2020",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "outDir": "dist",
+    "noImplicitAny": true,
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "paths": {
+      "@/*": ["*"],
+      "@/controllers/*": ["./controllers/*"],
+      "@/routes/*": ["./routes/*"],
+      "@/config/*": ["./config/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/services/*": ["./services/*"],
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
