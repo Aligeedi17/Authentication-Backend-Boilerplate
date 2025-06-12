@@ -1,4 +1,4 @@
-# 🔐 Authentication Backend Boilerplate
+# 🔐 Authentication Backend Boilerplate - Auth Flow
 
 A robust, production-ready authentication backend built with Node.js, Express, TypeScript, and Prisma. This boilerplate provides comprehensive authentication features including email/password registration, OAuth integration, email verification, and password reset functionality.
 
@@ -151,8 +151,6 @@ backend/
 | `POST` | `/api/auth/register` | Register new user | ❌ |
 | `POST` | `/api/auth/login` | Login with email/password | ❌ |
 | `POST` | `/api/auth/google/login` | Login with Google token | ❌ |
-| `GET` | `/api/auth/google` | Initiate Google OAuth | ❌ |
-| `GET` | `/api/auth/google/callback` | Google OAuth callback | ❌ |
 | `GET` | `/api/auth/me` | Get current user | ✅ |
 | `POST` | `/api/auth/logout` | Logout user | ❌ |
 
@@ -251,17 +249,21 @@ npm run build
 npm start
 ```
 
+---
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+We welcome contributions! Please follow these steps:
 
-## 📄 License
-
-This project is licensed under the ISC License.
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
 ## 🆘 Support
 
@@ -272,5 +274,19 @@ If you encounter any issues or have questions:
 3. Provide detailed information about your environment and the issue
 
 ---
+
+## 🙏 Acknowledgments
+
+- [Passport.js](http://www.passportjs.org/) – Authentication middleware for Node.js
+- [Express.js](https://expressjs.com/) – Web framework for Node.js
+- [Nodemailer](https://nodemailer.com/) – Easy as cake email sending
+
+---
+
+<div align="center">
+
+**[⭐ Star this repo](https://github.com/AsheeSoftworks/Authentication-Backend-Boilerplate-Auth-Flow.git)** if you found it helpful!
+
+</div>
 
 **Happy Coding! 🎉**
