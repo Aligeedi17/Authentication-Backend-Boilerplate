@@ -1,29 +1,17 @@
 import nodemailer from 'nodemailer';
-import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
+import prisma from '@/lib/prisma';
 
-const prisma = new PrismaClient();
-
-/**
- * Load and validate configuration values required for email sending,
- * application URLs, and branding. Defaults provided for local development.
- */
 const EMAIL_HOST = process.env.EMAIL_HOST;
-const EMAIL_PORT = parseInt(process.env.EMAIL_PORT, 10);
+const EMAIL_PORT = parseInt(process.env.EMAIL_PORT ?? '587', 10);
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 const EMAIL_FROM = process.env.EMAIL_FROM;
-const FRONTEND_URL = process.env.FRONTEND_URL;
-const API_URL = process.env.API_URL;
-const APP_NAME = process.env.APP_NAME;
+const FRONTEND_URL = process.env.FRONTEND_WEBSITE_URL ?? process.env.FRONTEND_URL;
+const APP_NAME = process.env.APP_NAME ?? 'App';
 
-/**
- * Initialize Nodemailer transporter for sending emails.
- * Uses environment-driven service or host/port/auth configuration.
- * Supports secure connections when using port 465.
- */
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: 'gmail',
   host: EMAIL_HOST,
   port: EMAIL_PORT,
   secure: EMAIL_PORT === 465,
@@ -33,14 +21,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-/**
- * Wraps email-specific HTML content into a complete email template.
- * Includes responsive styles, branding, and mobile support.
- *
- * @param content - Preformatted HTML snippet (message body)
- * @param title   - <title> tag for the email document
- * @returns Fully-formed HTML email as string
- */
 const createEmailTemplate = (content: string, title: string) => `
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +29,6 @@ const createEmailTemplate = (content: string, title: string) => `
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${title}</title>
   <style>
-    /* Reset and responsive styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f8fafc; }
     .container { max-width: 600px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; }
@@ -83,14 +62,6 @@ const createEmailTemplate = (content: string, title: string) => `
 </html>
 `;
 
-/**
- * Generates a unique verification token, stores it in the database,
- * and ensures only one active token per user/email exists.
- *
- * @param email - The user's email address to associate with the token
- * @returns The generated token string
- * @throws Error on failure to create or store token
- */
 export const createVerificationToken = async (email: string): Promise<string> => {
   const verificationToken = crypto.randomUUID();
   try {
@@ -109,15 +80,6 @@ export const createVerificationToken = async (email: string): Promise<string> =>
   }
 };
 
-/**
- * Composes and sends a verification email to a new user.
- * Includes HTML and plaintext alternatives and logs the outcome.
- *
- * @param email - Recipient's email address
- * @param name  - Recipient's display name
- * @param token - Verification token string
- * @throws Error on send failure
- */
 export const sendVerificationEmail = async (email: string, name: string, token: string): Promise<void> => {
   const verificationLink = `${FRONTEND_URL}/verify-email/${token}`;
 
@@ -172,15 +134,6 @@ The ${APP_NAME} Team
   }
 };
 
-/**
- * Generates and stores a one-hour password-reset token,
- * then sends a reset email to the user.
- *
- * @param email - Recipient's email address
- * @param name  - Recipient's display name
- * @returns The generated reset token
- * @throws Error on send or storage failure
- */
 export const sendPasswordResetEmail = async (email: string, name: string): Promise<string> => {
   const resetToken = crypto.randomUUID();
 
@@ -236,14 +189,6 @@ This link expires in 1 hour. Ignore this email if you didn’t request it.
   }
 };
 
-/**
- * Sends a welcome email after a user successfully verifies their email.
- * Encourages account usage and provides support links.
- *
- * @param email - Recipient's email address
- * @param name  - Recipient's display name
- * @throws Error on send failure
- */
 export const sendWelcomeEmail = async (email: string, name: string): Promise<void> => {
   const dashboardLink = `${FRONTEND_URL}/dashboard`;
   const emailContent = `
